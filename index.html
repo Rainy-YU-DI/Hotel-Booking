@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="js/axios.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script>
+      window.onload = function() {
+        var a = new Vue({
+          el: '#app',
+          data: {
+            list: [],
+          },
+          methods: {
+            aaa: function(id) {
+              console.log(id);
+              axios
+                .get('https://challenge.thef2e.com/api/thef2e2019/stage6/room/' + id, {
+                  headers: {
+                    authorization:
+                      'Bearer ooSgs9yHHNvJaqHibfKXTecxnu06MKNlV2YRQaWimdd7W4dmoX6lLF09bLkW',
+                    'content-type': 'application/json',
+                  },
+                })
+                .then(function(value) {
+                  console.log(value);
+                });
+            },
+          },
+          mounted: function() {
+            //this.list = XXXX;
+            var that = this;
+            //var aa = 100;
+            axios
+              .get('https://challenge.thef2e.com/api/thef2e2019/stage6/rooms', {
+                headers: {
+                  authorization:
+                    'Bearer ooSgs9yHHNvJaqHibfKXTecxnu06MKNlV2YRQaWimdd7W4dmoX6lLF09bLkW',
+                  'content-type': 'application/json',
+                },
+              })
+              .then(function(value) {
+                console.log(value);
+                that.list = value.data.items;
+                //console.log(value.data.items);
+              });
+          },
+        });
+      };
+
+      /*var b = 100;
+      var a = `a${b}aa`;
+      console.log(a);*/
+    </script>
+    <style>
+      .model {
+        position: relative;
+        display: inline-block;
+      }
+      .model .name {
+        position: relative;
+        display: block;
+        text-align: center;
+      }
+      .model .img {
+        position: relative;
+        display: block;
+        width: 300px;
+        height: 200px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div v-for="(model,index) in list" class="model" @click="function(){aaa(model.id);}">
+        <div class="name">{{ model.name }}</div>
+        <div class="img" :style="{backgroundImage:`url(${model.imageUrl})`}"></div>
+      </div>
+    </div>
+  </body>
+</html>
